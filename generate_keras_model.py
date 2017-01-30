@@ -59,7 +59,7 @@ model.add(Dense(1))
 # Train the model
 print(model.summary())
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
-history = model.fit(X_train, y_train, batch_size=10, nb_epoch=1, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
+history = model.fit(X_train, y_train, batch_size=10, nb_epoch=25, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
 score = model.evaluate(X_test, y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
