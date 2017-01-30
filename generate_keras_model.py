@@ -15,33 +15,31 @@ data_file.close()
 # 1st Layer - Convnet
 model = Sequential()
 model.add(Convolution2D(24, 5, 5,border_mode='valid',input_shape=X_train.shape[1:],subsample=(2, 2)))
+model.add(Dropout(0.25))
 #model.add(Activation('relu'))
-#model.add(Dropout(0.5))
 
 # 2nd Layer - Convnet
 model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
-#model.add(Dropout(0.5))
+model.add(Dropout(0.25))
 #model.add(Activation('relu'))
 
 # 3rd Layer - Convnet
 model.add(Convolution2D(48, 5, 5,border_mode='valid',subsample=(2, 2)))
-#model.add(Dropout(0.5))
+model.add(Dropout(0.25))
 #model.add(Activation('relu'))
 
 # 4th Layer - Convnet
 model.add(Convolution2D(64, 3, 3,border_mode='valid'))
-#model.add(Dropout(0.5))
+model.add(Dropout(0.25))
 #model.add(Activation('relu'))
 
 # 5th Layer - Convnet
 model.add(Convolution2D(64, 3, 3,border_mode='valid'))
-#model.add(Dropout(0.5))
+model.add(Dropout(0.25))
 #model.add(Activation('relu'))
 
 # Flatten
 model.add(Flatten())
-#model.add(Dense(1164))
-#model.add(Activation('relu'))
 
 # Fully connected layer
 model.add(Dense(100))
