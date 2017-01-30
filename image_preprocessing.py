@@ -21,7 +21,7 @@ print("Finished loading images.")
 image_array = np.concatenate((image_array_center,image_array_left,image_array_right))
 
 # Load Steering angles into array
-print("Loading steering angles...")
+print("\nLoading steering angles...")
 file_data = genfromtxt('track1_driving_log.csv', delimiter=',')
 print("Finished loading steering angles.")
 
@@ -29,6 +29,7 @@ print("Finished loading steering angles.")
 angle = file_data[...,3]
 angle = np.concatenate((angle,angle,angle))
 
+# Create a normalizer for both images and angles
 def normalizer(array, min_max=(0,1), feature_range=(0, 1)):
     x_min = feature_range[0]
     x_max = feature_range[1]
@@ -38,34 +39,37 @@ def normalizer(array, min_max=(0,1), feature_range=(0, 1)):
     return norm_features
 
 # Normalize the steering angles to between -0.5 and 0.5. They are currently recorded to between -1.0 and 1.0
-print("Normalizing steering angles...")
+print("\nNormalizing steering angles...")
 angle_nomalized = normalizer(angle, min_max=(-0.5,0.5), feature_range=(-1.0,1.0))
 print("Steering angles normalized")
 
 # Reduce image size to map NVidia NN
+print("\nResizing images to fit NN model...")
 resized_images = [imresize(image, (100,200,3))[16:,:,:][:66,:,:] for image in image_array]
 resized_images = np.array(resized_images)
+print("Images resized")
 
 # Normalize the image channels to between 0 and 1
-print("Normalizing image channels...")
+print("\nNormalizing image channels...")
 normalized_images = normalizer(resized_images, min_max=(0,1), feature_range=(0,255))
 print("Normalization complete")
 
 #Shuffle the data
-print("Shuffling the data")
+print("\nShuffling the data")
 X_train, y_train = shuffle(normalized_images, angle_nomalized)
 print("Data shuffled")
 
 # Perform a train / test split
-
-print("Split into train, validation and test data")
+print("\nSplit into train, validation and test data")
 X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.4, random_state=36)
 X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, test_size=0.2, random_state=97)
 print("Train size {}, validation size {}, test size {}".format(len(y_train), len(y_validation), len(y_test)))
 
 # Save the file to a pickle so I don't have to keep processing the images
 image_file = 'image_data.pkl'
-print("Saving images to", image_file)
+print("\nSaving images to", image_file)
 pickle_out = open(image_file, 'wb')
 pickle.dump([X_train, X_validation, X_test, y_train, y_validation, y_test], pickle_out)
 pickle_out.close()
+
+print("\nPreprocessing complete")
