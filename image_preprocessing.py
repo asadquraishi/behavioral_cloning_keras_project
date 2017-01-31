@@ -71,10 +71,23 @@ X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train
 print("Train size {}, validation size {}, test size {}".format(len(y_train), len(y_validation), len(y_test)))
 
 # Save the file to a pickle so I don't have to keep processing the images
-image_file = 'image_data.pkl'
+image_file = 'image_train_data.pkl'
 print("\nSaving images to", image_file)
 pickle_out = open(image_file, 'wb')
-pickle.dump([X_train, X_validation, X_test, y_train, y_validation, y_test], pickle_out)
+pickle.dump([X_train, y_train], pickle_out)
 pickle_out.close()
+
+image_file = 'image_val_data.pkl'
+print("\nSaving images to", image_file)
+pickle_out = open(image_file, 'wb')
+pickle.dump([X_validation, y_validation], pickle_out)
+pickle_out.close()
+
+image_file = 'image_test_data.pkl'
+print("\nSaving images to", image_file)
+pickle_out = open(image_file, 'wb')
+pickle.dump([X_test, y_test], pickle_out)
+pickle_out.close()
+
 
 print("\nPreprocessing complete")
