@@ -7,8 +7,16 @@ from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
 
 # Load file from pickle
-data_file = open('image_data.pkl', 'rb')
-X_train, X_validation, X_test, y_train, y_validation, y_test = pickle.load(data_file)
+data_file = open('image_train_data.pkl', 'rb')
+X_train, y_train = pickle.load(data_file)
+data_file.close()
+
+data_file = open('image_val_data.pkl', 'rb')
+X_validation, y_validation = pickle.load(data_file)
+data_file.close()
+
+data_file = open('image_test_data.pkl', 'rb')
+X_test, y_test = pickle.load(data_file)
 data_file.close()
 
 #Train NN
