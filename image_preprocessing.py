@@ -19,6 +19,9 @@ images_rigth = imread_collection('track1_IMG_2/right*.jpg')
 image_array_right = concatenate_images(images_rigth)
 print("Finished loading images.")
 image_array = np.concatenate((image_array_center,image_array_left,image_array_right))
+images_right = []
+images_left = []
+images_center = []
 
 # Load Steering angles into array
 print("\nLoading steering angles...")
@@ -53,11 +56,13 @@ print("Images resized")
 print("\nNormalizing image channels...")
 normalized_images = normalizer(resized_images, min_max=(0,1), feature_range=(0,255))
 print("Normalization complete")
+resized_images = []
 
 #Shuffle the data
 print("\nShuffling the data")
 X_train, y_train = shuffle(normalized_images, angle_nomalized)
 print("Data shuffled")
+normalized_images = []
 
 # Perform a train / test split
 print("\nSplit into train, validation and test data")
