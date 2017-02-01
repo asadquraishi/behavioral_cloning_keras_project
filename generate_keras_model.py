@@ -5,6 +5,7 @@ from keras.models import Sequential, model_from_json
 from keras.layers.core import Activation, Flatten, Dropout
 from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
+from keras.optimizers import Adam
 
 # Load file from pickle
 data_file = open('image_train_data.pkl', 'rb')
