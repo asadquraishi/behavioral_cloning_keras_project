@@ -5,7 +5,6 @@ from keras.models import Sequential, model_from_json
 from keras.layers.core import Activation, Flatten, Dropout
 from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
-from keras.optimizers import Adam
 
 # Load file from pickle
 data_file = open('image_train_data.pkl', 'rb')
@@ -68,10 +67,8 @@ model.add(Dense(1))
 
 # Train the model
 print(model.summary())
-adam = Adam(lr=0.0001)
-model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
-#model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
-#history = model.fit(X_train, y_train, batch_size=15, nb_epoch=10, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
+model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
+history = model.fit(X_train, y_train, batch_size=15, nb_epoch=10, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
 score = model.evaluate(X_test, y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
