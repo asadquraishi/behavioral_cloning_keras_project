@@ -21,7 +21,6 @@ print("Finished loading steering angles.")
 
 # Concatenate array for left, center, right images
 angle = file_data[...,3]
-angle = np.concatenate((angle,angle,angle))
 
 # Create a normalizer for both images and angles
 def normalizer(array, min_max=(0,1), feature_range=(0, 1)):
