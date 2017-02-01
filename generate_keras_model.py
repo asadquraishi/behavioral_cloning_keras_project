@@ -51,7 +51,7 @@ model.add(Dropout(0.5))
 model.add(Flatten())
 
 # Fully connected layer
-model.add(Dense(100), W_regularizer=l2(0.01))
+model.add(Dense(100, W_regularizer=l2(0.01)))
 model.add(Dropout(0.5))
 #model.add(Activation('relu'))
 
