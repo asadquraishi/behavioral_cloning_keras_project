@@ -9,23 +9,14 @@ from sklearn.model_selection import train_test_split
 import pickle
 
 print("Loading center images...")
-images_center = imread_collection('track1_IMG_2/center*.jpg')
-image_array_center = concatenate_images(images_center)
-print("Loading left images...")
-images_left = imread_collection('track1_IMG_2/left*.jpg')
-image_array_left = concatenate_images(images_left)
-print("Loading right images...")
-images_rigth = imread_collection('track1_IMG_2/right*.jpg')
-image_array_right = concatenate_images(images_rigth)
+images_center = imread_collection('IMG/center*.jpg')
+image_array = concatenate_images(images_center)
 print("Finished loading images.")
-image_array = np.concatenate((image_array_center,image_array_left,image_array_right))
-images_right = []
-images_left = []
 images_center = []
 
 # Load Steering angles into array
 print("\nLoading steering angles...")
-file_data = genfromtxt('track1_IMG_2_driving_log.csv', delimiter=',')
+file_data = genfromtxt('driving_log.csv', delimiter=',')
 print("Finished loading steering angles.")
 
 # Concatenate array for left, center, right images
