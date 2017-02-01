@@ -5,6 +5,9 @@ from keras.models import Sequential, model_from_json
 from keras.layers.core import Activation, Flatten, Dropout
 from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
+from keras.preprocessing.image import ImageDataGenerator
+
+nb_epoch = 10
 
 # Load file from pickle
 data_file = open('image_train_data.pkl', 'rb')
@@ -68,7 +71,21 @@ model.add(Dense(1))
 # Train the model
 print(model.summary())
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
-history = model.fit(X_train, y_train, batch_size=15, nb_epoch=10, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
+
+datagen = ImageDataGenerator(
+    featurewise_center=True,
+    featurewise_std_normalization=True,
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=False)
+
+datagen.fit(X_train)
+
+history = model.fit_generator(datagen.flow(X_train, y_train, batch_size=15),
+                    samples_per_epoch=len(X_train), nb_epoch=nb_epoch, validation_data=(X_validation, y_validation),verbose=1)
+
+# history = model.fit(X_train, y_train, batch_size=15, nb_epoch=nb_epoch, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
 score = model.evaluate(X_test, y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
