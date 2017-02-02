@@ -22,7 +22,6 @@ data_file.close()
 # Load the model if we want to train it on additional data
 try:
     # Load the model if we want to train it on additional data
-    print("Load an existing model")
     with open('model.json', 'r') as jfile:
         model = model_from_json(jfile.read())
 
