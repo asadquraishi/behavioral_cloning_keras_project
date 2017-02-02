@@ -85,8 +85,8 @@ except:
 print(model.summary())
 history = model.fit(X_train, y_train, batch_size=15, nb_epoch=10, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
 assess = model.evaluate(X_test, y_test, verbose=0)
-print('Accuracy:', score[0])
-print('Loss:', score[1])
+print('Accuracy:', assess[0])
+print('Loss:', assess[1])
 
 # Save the model
 json_model = model.to_json()
