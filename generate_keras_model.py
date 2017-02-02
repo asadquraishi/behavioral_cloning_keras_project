@@ -43,7 +43,7 @@ model.add(Dropout(0.5))
 
 # 5th Layer - Convnet
 model.add(Convolution2D(64, 3, 3,border_mode='valid'))
-#model.add(Dropout(0.5))
+model.add(Dropout(0.5))
 #model.add(Activation('relu'))
 
 # Flatten
@@ -51,7 +51,7 @@ model.add(Flatten())
 
 # Fully connected layer
 model.add(Dense(100))
-model.add(Dropout(0.5))
+#model.add(Dropout(0.5))
 #model.add(Activation('relu'))
 
 # Fully connected layer
