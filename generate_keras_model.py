@@ -22,6 +22,7 @@ data_file.close()
 # Load the model if we want to train it on additional data
 try:
     # Load the model if we want to train it on additional data
+    print("Load an existing model")
     with open('model.json', 'r') as jfile:
         model = model_from_json(jfile.read())
 
@@ -33,6 +34,7 @@ try:
 except:
     # Else build the model
     # 1st Layer - Convnet
+    print("Build a new model")
     model = Sequential()
     model.add(Convolution2D(24, 5, 5,border_mode='valid',input_shape=X_train.shape[1:],subsample=(2, 2)))
     #model.add(Dropout(0.5))
