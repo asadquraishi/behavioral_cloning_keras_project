@@ -41,22 +41,22 @@ except:
 
     # 2nd Layer - Convnet
     model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
-    model.add(Dropout(0.5))
+    #model.add(Dropout(0.2))
     model.add(Activation('tanh'))
 
     # 3rd Layer - Convnet
     model.add(Convolution2D(48, 5, 5,border_mode='valid',subsample=(2, 2)))
-    model.add(Dropout(0.5))
+    #model.add(Dropout(0.5))
     model.add(Activation('tanh'))
 
     # 4th Layer - Convnet
     model.add(Convolution2D(64, 3, 3,border_mode='valid'))
-    model.add(Dropout(0.5))
+    #model.add(Dropout(0.5))
     model.add(Activation('tanh'))
 
     # 5th Layer - Convnet
     model.add(Convolution2D(64, 3, 3,border_mode='valid'))
-    model.add(Dropout(0.5))
+    #model.add(Dropout(0.5))
     model.add(Activation('tanh'))
 
     # Flatten
@@ -82,7 +82,7 @@ except:
 
 # Train the model
 print(model.summary())
-history = model.fit(X_train, y_train, batch_size=15, nb_epoch=10, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
+history = model.fit(X_train, y_train, batch_size=15, nb_epoch=5, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
 assess = model.evaluate(X_test, y_test, verbose=0)
 print('Loss:', assess[0])
 print('Accuracy:', assess[1])
