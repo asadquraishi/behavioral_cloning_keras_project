@@ -43,6 +43,7 @@ except:
     # 2nd Layer - Convnet
     model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
     #model.add(Dropout(0.5))
+    #model.add(Dropout(0.2))
     model.add(Activation('tanh'))
 
     # 3rd Layer - Convnet
