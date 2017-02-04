@@ -5,6 +5,7 @@ from keras.models import Sequential, model_from_json
 from keras.layers.core import Activation, Flatten, Dropout
 from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
+from keras.regularizers import l2
 
 # Load file from pickle
 data_file = open('image_train_data.pkl', 'rb')
@@ -40,7 +41,8 @@ except:
     model.add(Activation('tanh'))
 
     # 2nd Layer - Convnet
-    model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
+    #model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
+    model.add(Convolution2D(36, 5, 5, W_regularizer=l2(0.01), border_mode='valid',subsample=(2, 2)))
     model.add(Dropout(0.5))
     model.add(Activation('tanh'))
 
