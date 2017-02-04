@@ -6,6 +6,7 @@ from keras.layers.core import Activation, Flatten, Dropout
 from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
 from keras.regularizers import l2
+from keras.optimizers import Adam
 
 # Load file from pickle
 data_file = open('image_train_data.pkl', 'rb')
@@ -80,7 +81,10 @@ except:
     # Output
     model.add(Dense(1))
 
-    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
+    #Add optimizer
+    adam = Adam(lr=0.0001)
+    model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
+    #model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
 
 # Train the model
 print(model.summary())
