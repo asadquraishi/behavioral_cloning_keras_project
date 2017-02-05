@@ -96,7 +96,7 @@ print(model.summary())
 datagen = ImageDataGenerator(
     featurewise_center=False,
     featurewise_std_normalization=False,
-    rotation_range=20,
+    rotation_range=10,
     width_shift_range=0.2,
     height_shift_range=0.2,
     horizontal_flip=False)
