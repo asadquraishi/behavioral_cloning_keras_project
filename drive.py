@@ -45,22 +45,22 @@ def telemetry(sid, data):
     imgString = data["image"]
     image = Image.open(BytesIO(base64.b64decode(imgString)))
     image_array = np.asarray(image)
-    print("Image dims are",image_array.shape)
+    #print("Image dims are",image_array.shape)
     # AQ add following to resize image from camera
     transformed_image_array = imresize(image_array, (100, 200, 3))[16:, :, :][:66, :, :]
     transformed_image_array = transformed_image_array[None, :, :, :]
-    print("Resized image dims are", transformed_image_array.shape)
-    print("Image RGB settings are", transformed_image_array[0,0,0])
+    #print("Resized image dims are", transformed_image_array.shape)
+    #print("Image RGB settings are", transformed_image_array[0,0,0])
 
     transformed_image_array = normalizer(transformed_image_array, min_max=(0, 1), feature_range=(0, 255))
-    print("New RGB settings are", transformed_image_array[0, 0, 0])
+    #print("New RGB settings are", transformed_image_array[0, 0, 0])
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
-    print("Steering angle", steering_angle)
+    #print("Steering angle", steering_angle)
     steering_angle = normalizer(steering_angle, min_max=(-1.0, 1.0), feature_range=(-0.5, 0.5))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
     throttle = 0.2
-    print(steering_angle, throttle)
+    #print(steering_angle, throttle)
     send_control(steering_angle, throttle)
 
 
