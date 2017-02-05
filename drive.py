@@ -47,7 +47,8 @@ def telemetry(sid, data):
     image_array = np.asarray(image)
     #print("Image dims are",image_array.shape)
     # AQ add following to resize image from camera
-    transformed_image_array = imresize(image_array, (100, 200, 3))[16:, :, :][:66, :, :]
+    #transformed_image_array = imresize(image_array, (100, 200, 3))[16:, :, :][:66, :, :]
+    transformed_image_array = image_array[60:, :, :][:66, :200, :]
     transformed_image_array = transformed_image_array[None, :, :, :]
     #print("Resized image dims are", transformed_image_array.shape)
     #print("Image RGB settings are", transformed_image_array[0,0,0])
