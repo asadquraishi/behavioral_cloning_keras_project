@@ -6,6 +6,10 @@ from keras.layers.core import Activation, Flatten, Dropout
 from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
 from keras.optimizers import Adam
+from keras.preprocessing.image import ImageDataGenerator
+
+nb_epoch = 10
+batch_size = 5
 
 # Load file from pickle
 data_file = open('image_train_data.pkl', 'rb')
@@ -88,7 +92,7 @@ except:
 
 # Train the model
 print(model.summary())
-history = model.fit(X_train, y_train, batch_size=15, nb_epoch=5, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
+history = model.fit(X_train, y_train, batch_size=batch_size, nb_epoch=nb_epoch, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
 assess = model.evaluate(X_test, y_test, verbose=0)
 print('Loss:', assess[0])
 print('Accuracy:', assess[1])
