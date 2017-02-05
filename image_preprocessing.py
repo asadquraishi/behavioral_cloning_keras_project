@@ -38,7 +38,8 @@ print("Steering angles normalized")
 
 # Reduce image size to map NVidia NN
 print("\nResizing images to fit NN model...")
-resized_images = [imresize(image, (100,200,3))[16:,:,:][:66,:,:] for image in image_array]
+#resized_images = [imresize(image, (100,200,3))[16:,:,:][:66,:,:] for image in image_array]
+resized_images = [image[60:,:,:][:66,:200,:] for image in image_array] #see if this improves the model's behavior
 resized_images = np.array(resized_images)
 print("Images resized")
 
