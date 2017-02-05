@@ -37,7 +37,7 @@ except:
     print("Build a new model")
     model = Sequential()
     model.add(Convolution2D(24, 5, 5,border_mode='valid',input_shape=X_train.shape[1:],subsample=(2, 2)))
-    model.add(Dropout(0.25)) # went right
+    #model.add(Dropout(0.25)) # went right
     model.add(Activation('tanh'))
 
     # 2nd Layer - Convnet
@@ -48,7 +48,7 @@ except:
 
     # 3rd Layer - Convnet
     model.add(Convolution2D(48, 5, 5,border_mode='valid',subsample=(2, 2)))
-    #model.add(Dropout(0.5))
+    model.add(Dropout(0.25))
     model.add(Activation('tanh'))
 
     # 4th Layer - Convnet
