@@ -71,11 +71,12 @@ except:
 
     # Fully connected layer
     model.add(Dense(50))
-    model.add(Dropout(0.25))
+    #model.add(Dropout(0.25))
     model.add(Activation('tanh'))
 
     # Fully connected layer
     model.add(Dense(10))
+    model.add(Dropout(0.25))
     model.add(Activation('tanh'))
 
     # Output
