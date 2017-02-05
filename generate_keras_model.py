@@ -92,7 +92,23 @@ except:
 
 # Train the model
 print(model.summary())
-history = model.fit(X_train, y_train, batch_size=batch_size, nb_epoch=nb_epoch, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
+
+datagen = ImageDataGenerator(
+    featurewise_center=True,
+    featurewise_std_normalization=False,
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=True)
+
+datagen.fit(X_train)
+
+history = model.fit_generator(datagen.flow(X_train, y_train, batch_size=20),
+                              samples_per_epoch=len(X_train), nb_epoch=nb_epoch,
+                              validation_data=(X_validation, y_validation),verbose=1)
+
+#history = model.fit(X_train, y_train, batch_size=batch_size, nb_epoch=nb_epoch, validation_split=0.0, validation_data=(X_validation, y_validation),verbose=1)
+
 assess = model.evaluate(X_test, y_test, verbose=0)
 print('Loss:', assess[0])
 print('Accuracy:', assess[1])
