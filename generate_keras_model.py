@@ -96,14 +96,14 @@ print(model.summary())
 datagen = ImageDataGenerator(
     featurewise_center=True,
     featurewise_std_normalization=True,
-    rotation_range=20,
+    rotation_range=0,
     width_shift_range=0.2,
     height_shift_range=0.2,
     horizontal_flip=True)
 
 datagen.fit(X_train)
 
-history = model.fit_generator(datagen.flow(X_train, y_train, batch_size=20),
+history = model.fit_generator(datagen.flow(X_train, y_train, batch_size=batch_size),
                               samples_per_epoch=len(X_train), nb_epoch=nb_epoch,
                               validation_data=(X_validation, y_validation),verbose=1)
 
