@@ -10,10 +10,7 @@ from PIL import Image
 from PIL import ImageOps
 from flask import Flask, render_template
 from io import BytesIO
-from scipy.misc import imresize
-
 from keras.models import model_from_json
-from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array
 
 # Fix error with Keras and TensorFlow
 import tensorflow as tf
@@ -46,21 +43,15 @@ def telemetry(sid, data):
     image = Image.open(BytesIO(base64.b64decode(imgString)))
     image_array = np.asarray(image)
     #print("Image dims are",image_array.shape)
-    # AQ add following to resize image from camera
-    #transformed_image_array = imresize(image_array, (100, 200, 3))[16:, :, :][:66, :, :]
+    # Add following to resize image from camera
     transformed_image_array = image_array[60:, :, :][:66, :200, :]
     transformed_image_array = transformed_image_array[None, :, :, :]
-    #print("Resized image dims are", transformed_image_array.shape)
-    #print("Image RGB settings are", transformed_image_array[0,0,0])
-
     transformed_image_array = normalizer(transformed_image_array, min_max=(0, 1), feature_range=(0, 255))
-    #print("New RGB settings are", transformed_image_array[0, 0, 0])
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
-    #print("Steering angle", steering_angle)
     steering_angle = normalizer(steering_angle, min_max=(-1.0, 1.0), feature_range=(-0.5, 0.5))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
-    throttle = 0.2
+    throttle = 0.3
     #print(steering_angle, throttle)
     send_control(steering_angle, throttle)
 
