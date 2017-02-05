@@ -96,10 +96,10 @@ print(model.summary())
 datagen = ImageDataGenerator(
     featurewise_center=True,
     featurewise_std_normalization=True,
-    rotation_range=0,
+    rotation_range=20,
     width_shift_range=0.2,
     height_shift_range=0.2,
-    horizontal_flip=True)
+    horizontal_flip=False)
 
 datagen.fit(X_train)
 
