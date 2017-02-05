@@ -48,12 +48,12 @@ except:
 
     # 3rd Layer - Convnet
     model.add(Convolution2D(48, 5, 5,border_mode='valid',subsample=(2, 2)))
-    model.add(Dropout(0.25))
+    #model.add(Dropout(0.25))
     model.add(Activation('tanh'))
 
     # 4th Layer - Convnet
     model.add(Convolution2D(64, 3, 3,border_mode='valid'))
-    #model.add(Dropout(0.5))
+    model.add(Dropout(0.25))
     model.add(Activation('tanh'))
 
     # 5th Layer - Convnet
