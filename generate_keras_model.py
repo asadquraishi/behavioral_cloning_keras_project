@@ -42,7 +42,7 @@ except:
 
     # 2nd Layer - Convnet
     model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
-    model.add(Dropout(0.25)) # went left
+    #model.add(Dropout(0.25)) # went left
     #model.add(Dropout(0.2))
     model.add(Activation('tanh'))
 
@@ -76,7 +76,7 @@ except:
 
     # Fully connected layer
     model.add(Dense(10))
-    model.add(Dropout(0.25))
+    #model.add(Dropout(0.25))
     model.add(Activation('tanh'))
 
     # Output
