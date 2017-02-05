@@ -8,8 +8,8 @@ from keras.layers.convolutional import Convolution2D
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 
-nb_epoch = 10
-batch_size = 5
+nb_epoch = 5
+batch_size = 20
 
 # Load file from pickle
 data_file = open('image_train_data.pkl', 'rb')
