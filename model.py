@@ -30,7 +30,8 @@ try:
     with open('model.json', 'r') as jfile:
         model = model_from_json(jfile.read())
 
-    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
+    adam = Adam(lr=0.0001)
+    model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
     model.load_weights('model.h5')
 
     print("imported existing model")
