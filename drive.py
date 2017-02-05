@@ -42,7 +42,6 @@ def telemetry(sid, data):
     imgString = data["image"]
     image = Image.open(BytesIO(base64.b64decode(imgString)))
     image_array = np.asarray(image)
-    #print("Image dims are",image_array.shape)
     # Add following to resize image from camera
     transformed_image_array = image_array[60:, :, :][:66, :200, :]
     transformed_image_array = transformed_image_array[None, :, :, :]

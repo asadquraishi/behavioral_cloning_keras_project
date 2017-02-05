@@ -30,9 +30,10 @@ try:
     with open('model.json', 'r') as jfile:
         model = model_from_json(jfile.read())
 
-    adam = Adam(lr=0.0001)
+    adam = Adam(lr=0.0005)
     model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
     model.load_weights('model.h5')
+    nb_epoch = 2
 
     print("imported existing model")
 
