@@ -170,7 +170,7 @@ if __name__ == '__main__':
                                    rotation_angle=rotation_angle)
 
     history = model.fit_generator(train_generator, samples_per_epoch=ceil(len(y_train))*batch_size,
-                                  nb_epoch=nb_epoch, validation_data=val_generator, nb_val_samples=eil(len(y_val))*batch_size, verbose=1)
+                                  nb_epoch=nb_epoch, validation_data=val_generator, nb_val_samples=ceil(len(y_val))*batch_size, verbose=1)
 
     #assess = model.evaluate(X_test, y_test, verbose=0)
     #print('Loss:', assess[0])
