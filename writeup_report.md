@@ -10,13 +10,13 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image1]: https://github.com/asadquraishi/behavioral_cloning_keras_project/blob/image_pre/nvidea-cnn-architecture.png "Model architecture"
+[image2]: https://github.com/asadquraishi/behavioral_cloning_keras_project/blob/image_pre/center.jpg "Centre lane driving"
+[image3]: https://github.com/asadquraishi/behavioral_cloning_keras_project/blob/image_pre/recovery_left_right.jpg "Recovery left to right"
+[image4]: https://github.com/asadquraishi/behavioral_cloning_keras_project/blob/image_pre/recovery_right_left.jpg "Recovery right to left"
+[image5]: https://github.com/asadquraishi/behavioral_cloning_keras_project/blob/image_pre/1_rotate_6_degrees.png "Rotated Image"
+[image6]: https://github.com/asadquraishi/behavioral_cloning_keras_project/blob/image_pre/2_flip_image.png "Flipped Image"
+[image7]: https://github.com/asadquraishi/behavioral_cloning_keras_project/blob/image_pre/3_crop_image.png "Cropped Image"
 
 ## Rubric Points
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.
@@ -89,9 +89,9 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 ####2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the layers and layer sizes shown in the image below.
 
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
+Here is a visualization of the architecture
 
 ![alt text][image1]
 
@@ -106,20 +106,18 @@ I then recorded the vehicle recovering from the left side and right sides of the
 ![alt text][image3]
 ![alt text][image4]
 
-Then I repeated this process on track two in order to get more data points.
+After the collection process, I had approximately 30,000 data points. To augment the data sat, I created a generator pipeline that would do the following:
+* rotate the image to a random angle between -10 and + 10 degrees (this number was arrived at after much experimentation.
+* cropping the image so only the road and curve of the road were visible (the cropping area and amount was determined by experimentation)
+* flipping one out of 4 images after rotation
+* adjusting the angle beased on the images rotation
 
-To augment the data sat, I also flipped angles (+/- 10 degeres) using generators. thinking that this would ... For example, here is an image that has then been rotated:
-
+![alt text][image5]
 ![alt text][image6]
+![alt text][image7]
 
 The use of generators also allowed me to load data on a batch by batch basis into memory. As I added driving data, loading all of it into memory became impossible.
 
-After the collection process, I had approximately 30,000 data points. I then preprocessed this data by:
-* normalizing both the steering and image (RGB) data
-* cropping the image so only the road and curve of the road were visible
-
-I finally randomly shuffled the data set and put 20% of the data into a validation set.
+I finally randomly shuffled the data set and put 20% of the data into a validation set. This gave me over 7000 validation images, allowing be to attribute significance to an approximate 2% validation gain (rule of 30).
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 5 - I made sure I terminated the training early rather than allowing it to overtrain and overfit.
-
-                                                                                                                                                                                                                                                     as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
