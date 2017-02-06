@@ -46,7 +46,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 ####1. An appropriate model arcthiecture has been employed
 
-My model consists of a convolution neural network as per the [NVidia paper]
+My model consists of a convolution neural network as per the [NVidia paper](https://arxiv.org/pdf/1604.07316v1.pdf) containing 5 convolutional layers of varying depth (, followed by four fully-connected layers.
 
 The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18).
 
