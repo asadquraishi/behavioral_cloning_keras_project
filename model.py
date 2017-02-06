@@ -165,8 +165,8 @@ if __name__ == '__main__':
     val_generator = data_generator(batch_size=batch_size, images=X_train, angles=y_train,
                                    rotation_angle=rotation_angle)
 
-    history = model.fit_generator(train_generator, samples_per_epoch=len(X_train),
-                                  nb_epoch=nb_epoch, validation_data=val_generator, verbose=1)
+    history = model.fit_generator(train_generator, samples_per_epoch=len(y_train),
+                                  nb_epoch=nb_epoch, validation_data=val_generator, nb_val_samples=len(y_val), verbose=1)
 
     #assess = model.evaluate(X_test, y_test, verbose=0)
     #print('Loss:', assess[0])
