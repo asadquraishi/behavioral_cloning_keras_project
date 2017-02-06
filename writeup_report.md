@@ -62,7 +62,7 @@ I also tried loading an already trained model, training it on additional sets of
 
 The model used an adam optimizer, and the learning rate was tuned manually (model.py line 122).
 
-The batcjh size was also experimented with. Sizes higher than 64 were not reliable so a size of 48 was chosen.
+The batcjh size was also experimented with. Sizes higher than 20 were not reliable so a size of 20 was chosen.
 
 ####4. Appropriate training data
 
@@ -85,8 +85,6 @@ I used a small training set with balanced data to train the model each time a ch
 
 Data was split into train and validation sets. This allowed me to relate the scoring of the model with its behaviour on the track.
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
 ####2. Final Model Architecture
@@ -103,24 +101,25 @@ To capture good driving behavior, I first recorded two laps on track one using c
 
 ![alt text][image2]
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to recover if it strayed off the road.... These images show what a recovery looks like starting from left to right, then right to left:
 
 ![alt text][image3]
 ![alt text][image4]
-![alt text][image5]
 
 Then I repeated this process on track two in order to get more data points.
 
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
+To augment the data sat, I also flipped angles (+/- 10 degeres) using generators. thinking that this would ... For example, here is an image that has then been rotated:
 
 ![alt text][image6]
-![alt text][image7]
 
-Etc ....
+The use of generators also allowed me to load data on a batch by batch basis into memory. As I added driving data, loading all of it into memory became impossible.
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+After the collection process, I had approximately 30,000 data points. I then preprocessed this data by:
+* normalizing both the steering and image (RGB) data
+* cropping the image so only the road and curve of the road were visible
 
+I finally randomly shuffled the data set and put 20% of the data into a validation set.
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 5 - I made sure I terminated the training early rather than allowing it to overtrain and overfit.
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+                                                                                                                                                                                                                                                     as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.

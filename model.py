@@ -24,9 +24,10 @@ def load_data():
     data = read_csv('driving_log.csv',header=None,names=col_names)
     centre_filename = data.centre.tolist()
     angle = data.angle.tolist()
-    X_train, X_test, y_train, y_test = train_test_split(centre_filename, angle, test_size=0.2, random_state=36)
-    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=36)
-    return X_train, X_val, X_test, y_train, y_val, y_test
+    #X_train, X_test, y_train, y_test = train_test_split(centre_filename, angle, test_size=0.2, random_state=36)
+    #X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=36)
+    X_train, X_val, y_train, y_val = train_test_split(centre_filename, angle, test_size=0.2, random_state=36)
+    return X_train, X_val, y_train, y_val
 
 # Create a normalizer for both images and angles
 def normalizer(array, min_max=(0,1), feature_range=(0, 1)):
@@ -57,6 +58,10 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
             if not validation: # don't want to do this for validation data
                 rotate_by = np.random.randint(-rotation_angle, rotation_angle)
                 image = rotate(image, rotate_by)
+                angle = angle + rotate_by/90*angle
+                '''if np.random.randint(2) == 1:
+                    image = np.fliplr(image)
+                    angle = -angle'''
             # add data to the array
             X_data.append(image)
             y_data.append(angle)
@@ -129,7 +134,7 @@ def build_model():
 if __name__ == '__main__':
     # load the data
     print("Loading data...")
-    X_train, X_val, X_test, y_train, y_val, y_test = load_data()
+    X_train, X_val, y_train, y_val = load_data()
     print("{} train samples, {} validation samples, {} test samples loaded.".format(len(X_train), len(X_val), len(X_test)))
 
     # build the model
