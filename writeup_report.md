@@ -52,17 +52,21 @@ The model includes RELU layers to introduce nonlinearity (every convolutional an
 
 ####2. Attempts to reduce overfitting in the model
 
-The model contains a dropout layer in order to reduce overfitting (model.py lines 89). A dropout layer before the input layer and after ea on each of the
+The model contains a dropout layer in order to reduce overfitting (model.py lines 89). A dropout layer before the input layer and after each of the layers was attempted. Only the remaining layer worked. I also attempted l2 normalizaion on each layer however the model didn't work with this in place.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+
+I also tried loading an already trained model, training it on additional sets of data to see the impact of data choices on training. This is the purpose of lines 70-77.
 
 ####3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer, and the learning rate was tuned manually (model.py line 122).
+
+The batcjh size was also experimented with. Sizes higher than 64 were not reliable so a size of 20 was chosen.
 
 ####4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ...
+Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road. I also drove multiple laps in both directions on the track.
 
 For details about how I created the training data, see the next section.
 
@@ -70,7 +74,13 @@ For details about how I created the training data, see the next section.
 
 ####1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
+The overall strategy for deriving a model architecture was to use the NVidia paper referenced at the beginning of this paper.
+
+Since the NVidia architecture was chosen based on image size I ensured my input data conformed to that size. I then tried a variety of approaches including:
+* adding dropout layes
+* adding l2 regularization
+*
+
 
 My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
 
