@@ -11,6 +11,7 @@ from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
+from math import ceil
 
 nb_epoch = 5
 batch_size = 20
@@ -168,8 +169,8 @@ if __name__ == '__main__':
     val_generator = data_generator(batch_size=batch_size, images=X_val, angles=y_val,
                                    rotation_angle=rotation_angle)
 
-    history = model.fit_generator(train_generator, samples_per_epoch=len(y_train),
-                                  nb_epoch=nb_epoch, validation_data=val_generator, nb_val_samples=len(y_val), verbose=1)
+    history = model.fit_generator(train_generator, samples_per_epoch=ceil(len(y_train))*batch_size,
+                                  nb_epoch=nb_epoch, validation_data=val_generator, nb_val_samples=eil(len(y_val))*batch_size, verbose=1)
 
     #assess = model.evaluate(X_test, y_test, verbose=0)
     #print('Loss:', assess[0])
