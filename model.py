@@ -162,7 +162,7 @@ if __name__ == '__main__':
     # Train the model
     train_generator = data_generator(batch_size=batch_size, images=X_train, angles=y_train,
                                      rotation_angle=rotation_angle)
-    val_generator = data_generator(batch_size=batch_size, images=X_train, angles=y_train,
+    val_generator = data_generator(batch_size=batch_size, images=X_val, angles=y_yal,
                                    rotation_angle=rotation_angle)
 
     history = model.fit_generator(train_generator, samples_per_epoch=len(y_train),
