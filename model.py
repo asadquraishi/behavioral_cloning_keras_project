@@ -25,7 +25,7 @@ weights = 'model.h5'
 def load_data():
     col_names = ['centre', 'left', 'right', 'angle', 'throttle', 'brake', 'speed']
     try:
-        data = read_csv(driving_log.csv,header=None,names=col_names)
+        data = read_csv(driving_log,header=None,names=col_names)
         centre_filename = data.centre.tolist()
         angle = data.angle.tolist()
         X_train, X_val, y_train, y_val = train_test_split(centre_filename, angle, test_size=0.2, random_state=36)
