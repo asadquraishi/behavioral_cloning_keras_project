@@ -72,9 +72,9 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
                 rotate_by = np.random.randint(-rotation_angle, rotation_angle)
                 image = rotate(image, rotate_by)
                 # randomly flip image
-                '''if np.random.randint(2) == 1:
+                if np.random.randint(5) == 1:
                     image = np.fliplr(image)
-                    angle = -angle'''
+                    angle = -angle
             # add data to the array
             X_data.append(image)
             y_data.append(angle)
