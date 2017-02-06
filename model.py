@@ -15,6 +15,7 @@ from keras.preprocessing.image import ImageDataGenerator
 nb_epoch = 5
 batch_size = 20
 rotation_angle = 10
+image_dir = 'IMG'
 
 '''
 # Load file from pickle
@@ -56,7 +57,8 @@ def data_generator(batch_size, images, angles, rotation_angle):
         X_data, y_data = [], []
         for index in range(batch_size):
             data_choice = np.random.randint(len(images))
-            image = imread(images[data_choice])
+            path = image_dir + '/' + images[data_choice].split('/')[-1]
+            image = imread(path)
             angle = angles[data_choice]
             # crop image
             image = image[60:, :, :][:66, :200, :]
