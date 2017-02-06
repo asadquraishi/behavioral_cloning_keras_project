@@ -78,45 +78,46 @@ def build_model():
 
     except:
         # Else build the model
-        # 1st Layer - Convnet - 3@66x200
+        # Input Layer - 3@66x200
         print("Build a new model")
         model = Sequential()
+        # 1st layer - Convolution - 24@31x98
         model.add(Convolution2D(24, 5, 5, input_shape=(66,200,3), border_mode='valid', subsample=(2, 2)))
         model.add(Activation('relu'))
 
-        # 2nd Layer - Convnet - 24@31x98
+        # 2nd Layer - Convolution - 36@14x47
         model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
         model.add(Dropout(0.25))
         model.add(Activation('relu'))
 
-        # 3rd Layer - Convnet - 36@14x47
+        # 3rd Layer - Convolution - 48@5x22
         model.add(Convolution2D(48, 5, 5,border_mode='valid',subsample=(2, 2)))
         model.add(Activation('relu'))
 
-        # 4th Layer - Convnet - 48@5x22
+        # 4th Layer - Convolution - 64@3x22
         model.add(Convolution2D(64, 3, 3,border_mode='valid'))
         model.add(Activation('relu'))
 
-        # 5th Layer - Convnet - 64@3x22
+        # 5th Layer - Convolution - 64@1x18
         model.add(Convolution2D(64, 3, 3,border_mode='valid'))
         model.add(Activation('relu'))
 
-        # Flatten
+        # Flatten - 1152
         model.add(Flatten())
 
-        # Fully connected layer
+        # Fully connected layer - 100
         model.add(Dense(100))
         model.add(Activation('relu'))
 
-        # Fully connected layer
+        # Fully connected layer - 50
         model.add(Dense(50))
         model.add(Activation('relu'))
 
-        # Fully connected layer
+        # Fully connected layer - 10
         model.add(Dense(10))
         model.add(Activation('relu'))
 
-        # Output
+        # Output - 1
         model.add(Dense(1))
 
         adam = Adam(lr=0.0001)

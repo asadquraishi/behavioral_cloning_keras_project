@@ -81,15 +81,9 @@ Since the NVidia architecture was chosen based on image size I ensured my input 
 * adding and removing l2 regularization
 * using tanh or relu activations
 
-I used a small traiing set with balanced data to train the model each time a change was made
+I used a small training set with balanced data to train the model each time a change was made including the learning rate. I made one change at a time in order to isolate the effect of the change and be able to attribute it to a specific parameter.
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting.
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ...
+Data was split into train and validation sets. This allowed me to relate the scoring of the model with its behaviour on the track.
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
 
