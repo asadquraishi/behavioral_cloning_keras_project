@@ -14,7 +14,7 @@ from keras.regularizers import l2
 from math import ceil
 
 nb_epoch = 5
-batch_size = 128
+batch_size = 20
 rotation_angle = 10
 image_dir = 'IMG'
 
@@ -54,7 +54,7 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
             image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
             angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
             # rotate image by a random angle
-            if not validation: # don't want to do this to validation data
+            if not validation: # don't want to do this for validation data
                 rotate_by = np.random.randint(-rotation_angle, rotation_angle)
                 image = rotate(image, rotate_by)
             # add data to the array

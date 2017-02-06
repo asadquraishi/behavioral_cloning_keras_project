@@ -46,13 +46,13 @@ The model.py file contains the code for training and saving the convolution neur
 
 ####1. An appropriate model arcthiecture has been employed
 
-My model consists of a convolution neural network as per the [NVidia paper](https://arxiv.org/pdf/1604.07316v1.pdf) containing 5 convolutional layers of varying depth (, followed by four fully-connected layers.
+My model consists of a convolution neural network as per the [NVidia paper](https://arxiv.org/pdf/1604.07316v1.pdf) containing 5 convolutional layers of varying depth (lines 84 to 102) followed by four fully-connected layers (lines 108 to 120).
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18).
+The model includes RELU layers to introduce nonlinearity (every convolutional and fully connected layer), and the data is normalized in the model using a custom normalizer (line 32).
 
 ####2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21).
+The model contains a dropout layer in order to reduce overfitting (model.py lines 89). A dropout layer before the input layer and after ea on each of the
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
