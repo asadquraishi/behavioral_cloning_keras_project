@@ -11,6 +11,7 @@ from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
 from keras.optimizers import Adam
 from math import ceil
+import sys
 
 nb_epoch = 5
 batch_size = 20
@@ -31,6 +32,7 @@ def load_data():
         return X_train, X_val, y_train, y_val
     except:
         print('Unable to read {} from disk.'.format(driving_log))
+        sys.exit(1)
 
 # Create a normalizer for both images and angles
 def normalizer(array, min_max=(0,1), feature_range=(0, 1)):
@@ -72,6 +74,7 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
                 y_data.append(angle)
             except:
                 print('Unable read the image {} from disk.'.format(path))
+                sys.exit(1)
         yield np.asarray(X_data), y_data
 
 def build_model():
@@ -168,6 +171,7 @@ if __name__ == '__main__':
             json_file.write(json_model)
         except:
             print('Unable to write {} to disk.'.format(model))
+            sys.exit(1)
     # serialize weights to HDF5
     try:
         model.save_weights(weights)
