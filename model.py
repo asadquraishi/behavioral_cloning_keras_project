@@ -86,7 +86,7 @@ def build_model():
 
         # 2nd Layer - Convnet - 24@31x98
         model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
-        model.add(Dropout(0.20))
+        model.add(Dropout(0.25))
         model.add(Activation('relu'))
 
         # 3rd Layer - Convnet - 36@14x47
