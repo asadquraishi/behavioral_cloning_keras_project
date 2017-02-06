@@ -153,7 +153,9 @@ def build_model():
 
 if __name__ == '__main__':
     # load the data
+    print("Loading data...")
     X_train, X_val, X_test, y_train, y_val, y_test = load_data()
+    print("{} train samples, {} validation samples, {} test samples loaded.".format(len(X_train), len(X_val), len(X_test)))
 
     # build the model
     model = build_model()
