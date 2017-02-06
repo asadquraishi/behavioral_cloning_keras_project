@@ -69,12 +69,13 @@ def data_generator(batch_size, images, angles, rotation_angle):
             image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
             angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
             # randomly flip image
-            if np.random.randint(2) == 1:
+            '''if np.random.randint(2) == 1:
                 image = np.fliplr(image)
-                angle = -angle
+                angle = -angle'''
             # add data to the array
             X_data.append(image)
             y_data.append(angle)
+        print('shape of array',np.asarray(X_data).shape)
         yield np.asarray(X_data), y_data
 
 def build_model():
