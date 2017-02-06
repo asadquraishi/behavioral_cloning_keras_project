@@ -10,7 +10,6 @@ from keras.layers.core import Activation, Flatten, Dropout
 from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
 from keras.optimizers import Adam
-from keras.regularizers import l2
 from math import ceil
 
 nb_epoch = 5
@@ -49,21 +48,25 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
             path = image_dir + '/' + images[data_choice].split('/')[-1]
             image = imread(path)
             angle = angles[data_choice]
-            # crop image to same dimensions as the NVidia model
-            image = image[60:, :, :][:66, :200, :]
+            #crop was here
             # normalize the image and angle
             image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
             angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
             # rotate image by a random angle
             if not validation: # don't want to do this for validation data
-                if np.random.randint(2) == 1:
+                rotate_by = np.random.randint(-rotation_angle, rotation_angle)
+                image = rotate(image, rotate_by)
+                angle = angle - rotate_by / 25 * angle
+                '''if np.random.randint(2) == 1:
                     image = np.fliplr(image)
                     angle = -angle
-                else
+                else:
                     rotate_by = np.random.randint(-rotation_angle, rotation_angle)
                     image = rotate(image, rotate_by)
-                    angle = angle - rotate_by / 25 * angle
+                    angle = angle - rotate_by / 25 * angle'''
             # add data to the array
+            # crop image to same dimensions as the NVidia model
+            image = image[60:, :, :][:66, :200, :]
             X_data.append(image)
             y_data.append(angle)
         yield np.asarray(X_data), y_data
@@ -72,7 +75,7 @@ def build_model():
     ''' Load the model if we want to train it on additional data
     I used this to successively train a model when adding data to see if it helped.
     It's better than starting training again every time - saves time and allows experimentation with
-    the additional of different data sets to the model'''
+    the addition of different data sets to the model'''
     try:
         # Load the model if we want to train it on additional data
         with open('model.json', 'r') as jfile:
