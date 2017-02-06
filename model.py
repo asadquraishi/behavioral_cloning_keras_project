@@ -25,14 +25,12 @@ def load_data():
     col_names = ['centre', 'left', 'right', 'angle', 'throttle', 'brake', 'speed']
     try:
         data = read_csv(driving_log.csv,header=None,names=col_names)
+        centre_filename = data.centre.tolist()
+        angle = data.angle.tolist()
+        X_train, X_val, y_train, y_val = train_test_split(centre_filename, angle, test_size=0.2, random_state=36)
+        return X_train, X_val, y_train, y_val
     except:
         print('Unable to read {} from disk.'.format(driving_log))
-    centre_filename = data.centre.tolist()
-    angle = data.angle.tolist()
-    #X_train, X_test, y_train, y_test = train_test_split(centre_filename, angle, test_size=0.2, random_state=36)
-    #X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=36)
-    X_train, X_val, y_train, y_val = train_test_split(centre_filename, angle, test_size=0.2, random_state=36)
-    return X_train, X_val, y_train, y_val
 
 # Create a normalizer for both images and angles
 def normalizer(array, min_max=(0,1), feature_range=(0, 1)):
@@ -54,26 +52,26 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
             path = image_dir + '/' + images[data_choice].split('/')[-1]
             try:
                 image = imread(path)
+                angle = angles[data_choice]
+                # crop was here
+                # normalize the image and angle
+                image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
+                angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
+                # rotate image by a random angle
+                if not validation:  # don't want to do this for validation data
+                    rotate_by = np.random.randint(-rotation_angle, rotation_angle)
+                    image = rotate(image, rotate_by)
+                    angle = angle - rotate_by / 25 * angle
+                    if np.random.randint(4) == 1:
+                        image = np.fliplr(image)
+                        angle = -angle
+                # crop image to same dimensions as the NVidia model
+                image = image[60:, :, :][:66, :200, :]
+                # add data to the array
+                X_data.append(image)
+                y_data.append(angle)
             except:
                 print('Unable read the image {} from disk.'.format(path))
-            angle = angles[data_choice]
-            #crop was here
-            # normalize the image and angle
-            image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
-            angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
-            # rotate image by a random angle
-            if not validation: # don't want to do this for validation data
-                rotate_by = np.random.randint(-rotation_angle, rotation_angle)
-                image = rotate(image, rotate_by)
-                angle = angle - rotate_by / 25 * angle
-                if np.random.randint(4) == 1:
-                    image = np.fliplr(image)
-                    angle = -angle
-            # crop image to same dimensions as the NVidia model
-            image = image[60:, :, :][:66, :200, :]
-            # add data to the array
-            X_data.append(image)
-            y_data.append(angle)
         yield np.asarray(X_data), y_data
 
 def build_model():
