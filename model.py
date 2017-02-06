@@ -16,11 +16,17 @@ nb_epoch = 5
 batch_size = 20
 rotation_angle = 10
 image_dir = 'IMG'
+driving_log = 'driving_log.csv'
+model = 'model.json'
+weights = 'model.h5'
 
 # Load the data from the CSV file and split into train, validation and test data
 def load_data():
     col_names = ['centre', 'left', 'right', 'angle', 'throttle', 'brake', 'speed']
-    data = read_csv('driving_log.csv',header=None,names=col_names)
+    try:
+        data = read_csv(driving_log.csv,header=None,names=col_names)
+    except:
+        print('Unable to read {} from disk.'.format(driving_log))
     centre_filename = data.centre.tolist()
     angle = data.angle.tolist()
     #X_train, X_test, y_train, y_test = train_test_split(centre_filename, angle, test_size=0.2, random_state=36)
@@ -46,7 +52,10 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
             # Randomize selection of the images from the data set
             data_choice = np.random.randint(len(images))
             path = image_dir + '/' + images[data_choice].split('/')[-1]
-            image = imread(path)
+            try:
+                image = imread(path)
+            except:
+                print('Unable read the image {} from disk.'.format(path))
             angle = angles[data_choice]
             #crop was here
             # normalize the image and angle
@@ -57,16 +66,12 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
                 rotate_by = np.random.randint(-rotation_angle, rotation_angle)
                 image = rotate(image, rotate_by)
                 angle = angle - rotate_by / 25 * angle
-                '''if np.random.randint(2) == 1:
+                if np.random.randint(4) == 1:
                     image = np.fliplr(image)
                     angle = -angle
-                else:
-                    rotate_by = np.random.randint(-rotation_angle, rotation_angle)
-                    image = rotate(image, rotate_by)
-                    angle = angle - rotate_by / 25 * angle'''
-            # add data to the array
             # crop image to same dimensions as the NVidia model
             image = image[60:, :, :][:66, :200, :]
+            # add data to the array
             X_data.append(image)
             y_data.append(angle)
         yield np.asarray(X_data), y_data
@@ -160,8 +165,14 @@ if __name__ == '__main__':
 
     # Save the model
     json_model = model.to_json()
-    with open("model.json", "w") as json_file:
-        json_file.write(json_model)
+    with open(model, "w") as json_file:
+        try:
+            json_file.write(json_model)
+        except:
+            print('Unable to write {} to disk.'.format(model))
     # serialize weights to HDF5
-    model.save_weights("model.h5")
-    print("Saved model to disk")
+    try:
+        model.save_weights(weights)
+        print("Saved model to disk")
+    except:
+        print("Unable to save {} to disk.".format(weights))
