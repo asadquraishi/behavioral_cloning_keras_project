@@ -58,7 +58,7 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
             if not validation: # don't want to do this for validation data
                 rotate_by = np.random.randint(-rotation_angle, rotation_angle)
                 image = rotate(image, rotate_by)
-                angle = angle + rotate_by/90*angle
+                angle = angle - rotate_by/25*angle
                 '''if np.random.randint(2) == 1:
                     image = np.fliplr(image)
                     angle = -angle'''
@@ -112,6 +112,7 @@ def build_model():
 
         # Fully connected layer - 100
         model.add(Dense(100))
+        model.add(Dropout(0.25))
         model.add(Activation('relu'))
 
         # Fully connected layer - 50
