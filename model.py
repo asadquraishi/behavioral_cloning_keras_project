@@ -63,6 +63,7 @@ def data_generator(batch_size, images, angles, rotation_angle):
             angle = angles[data_choice]
             # crop image
             image = image[60:, :, :][:66, :200, :]
+            print('image ',image[0,0])
             # rotate image by a random angle
             rotate_by = np.random.randint(-rotation_angle, rotation_angle)
             image = rotate(image, rotate_by)
@@ -77,7 +78,7 @@ def data_generator(batch_size, images, angles, rotation_angle):
             X_data.append(image)
             y_data.append(angle)
         #print('shape of array',np.asarray(X_data).shape)
-        print('image pixel value = {} and angle = {}'.format(X_data[0,0,0], y_data[0]))
+        #print('image pixel value = {} and angle = {}'.format(X_data[0,0,0], y_data[0]))
         yield np.asarray(X_data), y_data
 
 def build_model():
