@@ -77,7 +77,7 @@ def data_generator(batch_size, images, angles, rotation_angle):
             y_data.append(angle)
         yield np.asarray(X_data), y_data
 
-def build_model(input_shape):
+def build_model():
 
     # Load the model if we want to train it on additional data
     try:
