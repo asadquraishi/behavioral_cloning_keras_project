@@ -18,8 +18,8 @@ batch_size = 20
 rotation_angle = 10
 image_dir = 'IMG'
 driving_log = 'driving_log.csv'
-model = 'model.json'
-weights = 'model.h5'
+model_file = 'model.json'
+weights_file = 'model.h5'
 
 # Load the data from the CSV file and split into train, validation and test data
 def load_data():
@@ -170,11 +170,11 @@ if __name__ == '__main__':
         try:
             json_file.write(json_model)
         except:
-            print('Unable to write {} to disk.'.format(model))
+            print('Unable to write {} to disk.'.format(model_file))
             sys.exit(1)
     # serialize weights to HDF5
     try:
-        model.save_weights(weights)
+        model.save_weights(weights_file)
         print("Saved model to disk")
     except:
-        print("Unable to save {} to disk.".format(weights))
+        print("Unable to save {} to disk.".format(weights_file))
