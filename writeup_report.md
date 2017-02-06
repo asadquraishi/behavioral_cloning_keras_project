@@ -62,7 +62,7 @@ I also tried loading an already trained model, training it on additional sets of
 
 The model used an adam optimizer, and the learning rate was tuned manually (model.py line 122).
 
-The batcjh size was also experimented with. Sizes higher than 64 were not reliable so a size of 20 was chosen.
+The batcjh size was also experimented with. Sizes higher than 64 were not reliable so a size of 48 was chosen.
 
 ####4. Appropriate training data
 
@@ -77,10 +77,11 @@ For details about how I created the training data, see the next section.
 The overall strategy for deriving a model architecture was to use the NVidia paper referenced at the beginning of this paper.
 
 Since the NVidia architecture was chosen based on image size I ensured my input data conformed to that size. I then tried a variety of approaches including:
-* adding dropout layes
-* adding l2 regularization
-*
+* adding and removing dropout layes
+* adding and removing l2 regularization
+* using tanh or relu activations
 
+I used a small traiing set with balanced data to train the model each time a change was made
 
 My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
 
