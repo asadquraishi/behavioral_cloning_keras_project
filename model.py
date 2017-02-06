@@ -59,7 +59,7 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
                 # crop was here
                 # normalize the image and angle
                 image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
-                angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
+                #angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
                 # rotate image by a random angle
                 if not validation:  # don't want to do this for validation data
                     rotate_by = np.random.randint(-rotation_angle, rotation_angle)
