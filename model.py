@@ -133,7 +133,7 @@ def build_model():
 
         # Fully connected layer
         model.add(Dense(100))
-        #model.add(Dropout(0.25))
+        model.add(Dropout(0.25))
         model.add(Activation('relu'))
 
         # Fully connected layer
