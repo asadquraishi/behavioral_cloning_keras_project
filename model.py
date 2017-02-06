@@ -10,7 +10,6 @@ from keras.layers.core import Activation, Flatten, Dropout
 from keras.layers import Dense
 from keras.layers.convolutional import Convolution2D
 from keras.optimizers import Adam
-from keras.regularizers import l2
 from math import ceil
 import sys
 
@@ -59,7 +58,7 @@ def data_generator(batch_size, images, angles, rotation_angle, validation=True):
                 # crop was here
                 # normalize the image and angle
                 image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
-                #angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
+                angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
                 # rotate image by a random angle
                 if not validation:  # don't want to do this for validation data
                     rotate_by = np.random.randint(-rotation_angle, rotation_angle)
@@ -98,45 +97,43 @@ def build_model():
         print("Build a new model")
         model = Sequential()
         # 1st layer - Convolution - 24@31x98
-        model.add(Convolution2D(24, 5, 5, input_shape=(66,200,3), border_mode='valid', subsample=(2, 2), W_regularizer = l2(0.001)))
+        model.add(Convolution2D(24, 5, 5, input_shape=(66,200,3), border_mode='valid', subsample=(2, 2)))
         model.add(Activation('relu'))
 
         # 2nd Layer - Convolution - 36@14x47
-        model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2), W_regularizer = l2(0.001)))
+        model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
         model.add(Dropout(0.25))
         model.add(Activation('relu'))
 
         # 3rd Layer - Convolution - 48@5x22
-        model.add(Convolution2D(48, 5, 5,border_mode='valid',subsample=(2, 2), W_regularizer = l2(0.001)))
+        model.add(Convolution2D(48, 5, 5,border_mode='valid',subsample=(2, 2)))
         model.add(Activation('relu'))
 
         # 4th Layer - Convolution - 64@3x22
-        model.add(Convolution2D(64, 3, 3,border_mode='valid', W_regularizer = l2(0.001)))
+        model.add(Convolution2D(64, 3, 3,border_mode='valid'))
         model.add(Activation('relu'))
 
         # 5th Layer - Convolution - 64@1x18
-        model.add(Convolution2D(64, 3, 3,border_mode='valid', W_regularizer = l2(0.001)))
+        model.add(Convolution2D(64, 3, 3,border_mode='valid'))
         model.add(Activation('relu'))
 
         # Flatten - 1152
         model.add(Flatten())
 
         # Fully connected layer - 100
-        model.add(Dense(100, W_regularizer = l2(0.001)))
-        model.add(Dropout(0.25))
+        model.add(Dense(100))
         model.add(Activation('relu'))
 
         # Fully connected layer - 50
-        model.add(Dense(50, W_regularizer = l2(0.001)))
-        model.add(Dropout(0.25))
+        model.add(Dense(50))
         model.add(Activation('relu'))
 
         # Fully connected layer - 10
-        model.add(Dense(10, W_regularizer = l2(0.001)))
+        model.add(Dense(10))
         model.add(Activation('relu'))
 
         # Output - 1
-        model.add(Dense(1, W_regularizer = l2(0.001)))
+        model.add(Dense(1))
 
         adam = Adam(lr=0.0001)
         model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
@@ -163,20 +160,16 @@ if __name__ == '__main__':
     history = model.fit_generator(train_generator, samples_per_epoch=ceil(len(y_train)/batch_size)*batch_size,
                                   nb_epoch=nb_epoch, validation_data=val_generator, nb_val_samples=ceil(len(y_val)/batch_size)*batch_size, verbose=1)
 
-    #assess = model.evaluate(X_test, y_test, verbose=0)
-    #print('Loss:', assess[0])
-    #print('Accuracy:', assess[1])
-
     # Save the model
     json_model = model.to_json()
-    with open(model, "w") as json_file:
+    with open(model_file, "w") as json_file:
         try:
             json_file.write(json_model)
         except:
             print('Unable to write {} to disk.'.format(model_file))
             sys.exit(1)
-    # serialize weights to HDF5
     try:
+        # serialize weights to HDF5
         model.save_weights(weights_file)
         print("Saved model to disk")
     except:

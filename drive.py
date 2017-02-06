@@ -48,7 +48,7 @@ def telemetry(sid, data):
     transformed_image_array = normalizer(transformed_image_array, min_max=(0, 1), feature_range=(0, 255))
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
-    #steering_angle = normalizer(steering_angle, min_max=(-1.0, 1.0), feature_range=(-0.5, 0.5))
+    steering_angle = normalizer(steering_angle, min_max=(-1.0, 1.0), feature_range=(-0.5, 0.5))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
     throttle = 0.3
     #print(steering_angle, throttle)
