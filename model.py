@@ -15,7 +15,7 @@ from math import ceil
 
 nb_epoch = 5
 batch_size = 20
-rotation_angle = 5
+rotation_angle = 20
 image_dir = 'IMG'
 
 '''
