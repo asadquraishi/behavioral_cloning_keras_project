@@ -164,7 +164,7 @@ if __name__ == '__main__':
     val_generator = data_generator(batch_size=batch_size, images=X_train, angles=y_train,
                                    rotation_angle=rotation_angle)
 
-    history = model.fit_generator(train_datagenerator, samples_per_epoch=len(X_train),
+    history = model.fit_generator(train_generator, samples_per_epoch=len(X_train),
                                   nb_epoch=nb_epoch, validation_data=val_generator, verbose=1)
 
     #assess = model.evaluate(X_test, y_test, verbose=0)
