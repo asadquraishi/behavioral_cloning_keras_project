@@ -51,7 +51,7 @@ def normalizer(array, min_max=(0,1), feature_range=(0, 1)):
     return norm_features
 
 
-def data_generator(batch_size, images, angles, rotation_angle):
+def data_generator(batch_size, images, angles, rotation_angle, validation=True):
     images, angles = shuffle(images, angles)
 
     while True:
@@ -64,16 +64,17 @@ def data_generator(batch_size, images, angles, rotation_angle):
             # crop image
             image = image[60:, :, :][:66, :200, :]
             #print('image {}, angle {}'.format(image[0,0],angle))
-            # rotate image by a random angle
-            rotate_by = np.random.randint(-rotation_angle, rotation_angle)
-            image = rotate(image, rotate_by)
             # normalize the image and angle
             image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
             angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
-            # randomly flip image
-            '''if np.random.randint(2) == 1:
-                image = np.fliplr(image)
-                angle = -angle'''
+            # rotate image by a random angle
+            if not validation:
+                rotate_by = np.random.randint(-rotation_angle, rotation_angle)
+                image = rotate(image, rotate_by)
+                # randomly flip image
+                '''if np.random.randint(2) == 1:
+                    image = np.fliplr(image)
+                    angle = -angle'''
             # add data to the array
             X_data.append(image)
             y_data.append(angle)
@@ -167,7 +168,7 @@ if __name__ == '__main__':
 
     # Train the model
     train_generator = data_generator(batch_size=batch_size, images=X_train, angles=y_train,
-                                     rotation_angle=rotation_angle)
+                                     rotation_angle=rotation_angle, validation=False)
     val_generator = data_generator(batch_size=batch_size, images=X_val, angles=y_val,
                                    rotation_angle=rotation_angle)
 
