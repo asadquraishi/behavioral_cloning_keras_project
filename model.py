@@ -75,7 +75,7 @@ def data_generator(batch_size, images, angles, rotation_angle):
             # add data to the array
             X_data.append(image)
             y_data.append(angle)
-        yield X_data, y_data
+        yield np.asarray(X_data), y_data
 
 def build_model():
 
