@@ -14,24 +14,11 @@ from keras.regularizers import l2
 from math import ceil
 
 nb_epoch = 5
-batch_size = 64
+batch_size = 128
 rotation_angle = 10
 image_dir = 'IMG'
 
-'''
-# Load file from pickle
-data_file = open('image_train_data.pkl', 'rb')
-X_train, y_train = pickle.load(data_file)
-data_file.close()
-
-data_file = open('image_val_data.pkl', 'rb')
-X_validation, y_validation = pickle.load(data_file)
-data_file.close()
-
-data_file = open('image_test_data.pkl', 'rb')
-X_test, y_test = pickle.load(data_file)
-data_file.close()'''
-
+# Load the data from the CSV file and split into train, validation and test data
 def load_data():
     col_names = ['centre', 'left', 'right', 'angle', 'throttle', 'brake', 'speed']
     data = read_csv('driving_log.csv',header=None,names=col_names)
@@ -50,76 +37,67 @@ def normalizer(array, min_max=(0,1), feature_range=(0, 1)):
     norm_features = (array-x_min)*(b-a)/(x_max - x_min) + a
     return norm_features
 
-
 def data_generator(batch_size, images, angles, rotation_angle, validation=True):
+    # Shuffle data at the start of the epoch
     images, angles = shuffle(images, angles)
-
     while True:
         X_data, y_data = [], []
         for index in range(batch_size):
+            # Randomize selection of the images from the data set
             data_choice = np.random.randint(len(images))
             path = image_dir + '/' + images[data_choice].split('/')[-1]
             image = imread(path)
             angle = angles[data_choice]
-            # crop image
+            # crop image to same dimensions as the NVidia model
             image = image[60:, :, :][:66, :200, :]
-            #print('image {}, angle {}'.format(image[0,0],angle))
             # normalize the image and angle
             image = normalizer(image, min_max=(0, 1), feature_range=(0, 255))
             angle = normalizer(angle, min_max=(-0.5, 0.5), feature_range=(-1.0, 1.0))
             # rotate image by a random angle
-            if not validation:
+            if not validation: # don't want to do this to validation data
                 rotate_by = np.random.randint(-rotation_angle, rotation_angle)
                 image = rotate(image, rotate_by)
-                # randomly flip image
-                '''if np.random.randint(5) == 1:
-                    image = np.fliplr(image)
-                    angle = -angle'''
             # add data to the array
             X_data.append(image)
             y_data.append(angle)
-        #print('shape of array',np.asarray(X_data).shape)
-        #print('image pixel value = {} and angle = {}'.format(X_data[0,0,0], y_data[0]))
         yield np.asarray(X_data), y_data
 
 def build_model():
-
-    # Load the model if we want to train it on additional data
+    ''' Load the model if we want to train it on additional data
+    I used this to successively train a model when adding data to see if it helped.
+    It's better than starting training again every time - saves time and allows experimentation with
+    the additional of different data sets to the model'''
     try:
         # Load the model if we want to train it on additional data
         with open('model.json', 'r') as jfile:
             model = model_from_json(jfile.read())
-
-        adam = Adam(lr=0.0001)
+        adam = Adam(lr=0.0001) # Tried using different learning rates on the new data
         model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
         model.load_weights('model.h5')
-
         print("imported existing model")
 
     except:
         # Else build the model
-        # 1st Layer - Convnet
+        # 1st Layer - Convnet - 3@66x200
         print("Build a new model")
         model = Sequential()
-        #model.add(Convolution2D(24, 5, 5, input_shape=(66,200,3), border_mode='valid', subsample=(2, 2)))
-        model.add(Convolution2D(24, 5, 5, border_mode='valid', input_shape=(66,200,3), subsample=(2, 2), W_regularizer = l2(0.001)))
+        model.add(Convolution2D(24, 5, 5, input_shape=(66,200,3), border_mode='valid', subsample=(2, 2)))
         model.add(Activation('relu'))
 
-        # 2nd Layer - Convnet
+        # 2nd Layer - Convnet - 24@31x98
         model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
-        #model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2), W_regularizer = l2(0.001)))
         model.add(Dropout(0.20))
         model.add(Activation('relu'))
 
-        # 3rd Layer - Convnet
+        # 3rd Layer - Convnet - 36@14x47
         model.add(Convolution2D(48, 5, 5,border_mode='valid',subsample=(2, 2)))
         model.add(Activation('relu'))
 
-        # 4th Layer - Convnet
+        # 4th Layer - Convnet - 48@5x22
         model.add(Convolution2D(64, 3, 3,border_mode='valid'))
         model.add(Activation('relu'))
 
-        # 5th Layer - Convnet
+        # 5th Layer - Convnet - 64@3x22
         model.add(Convolution2D(64, 3, 3,border_mode='valid'))
         model.add(Activation('relu'))
 
