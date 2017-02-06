@@ -77,7 +77,7 @@ def data_generator(batch_size, images, angles, rotation_angle):
             y_data.append(angle)
         yield np.asarray(X_data), y_data
 
-def build_model():
+def build_model(input_shape):
 
     # Load the model if we want to train it on additional data
     try:
@@ -97,7 +97,8 @@ def build_model():
         # 1st Layer - Convnet
         print("Build a new model")
         model = Sequential()
-        model.add(Convolution2D(24, 5, 5,border_mode='valid',input_shape=X_train.shape[1:],subsample=(2, 2)))
+        #model.add(Convolution2D(24, 5, 5,border_mode='valid',input_shape=X_train.shape[1:],subsample=(2, 2)))
+        model.add(Convolution2D(24, 5, 5, border_mode='valid', input_shape=(66,200,3), subsample=(2, 2)))
         #model.add(Dropout(0.25)) # went right
         model.add(Activation('relu'))
 
