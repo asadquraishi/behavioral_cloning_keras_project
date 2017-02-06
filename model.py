@@ -112,7 +112,7 @@ def build_model():
         # 2nd Layer - Convnet
         model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2)))
         #model.add(Convolution2D(36, 5, 5,border_mode='valid',subsample=(2, 2), W_regularizer = l2(0.001)))
-        model.add(Dropout(0.20)) # went left
+        #model.add(Dropout(0.20)) # went left
         #model.add(Dropout(0.2))
         model.add(Activation('relu'))
 
