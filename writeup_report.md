@@ -62,7 +62,7 @@ I also tried loading an already trained model, training it on additional sets of
 
 The model used an adam optimizer, and the learning rate was tuned manually (model.py line 122).
 
-The batcjh size was also experimented with. Sizes higher than 20 were not reliable so a size of 20 was chosen.
+The batch size was also experimented with. Sizes higher than 20 were not reliable so a size of 20 was chosen.
 
 ####4. Appropriate training data
 
